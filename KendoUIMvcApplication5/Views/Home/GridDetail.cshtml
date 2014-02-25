@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "GridDetail";
+}
+ @model IEnumerable<KendoUIMvcApplication5.Models.Person>
+<h2>GridDetail</h2>
+
+
+@(Html.Kendo().Grid(Model)
+    .Name("ActivitiesGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Icon).Filterable(false).Title("")
+            .ClientTemplate("<img style ='margin-top:5px; margin-left: #:data.NestingLevel#px;' src='" + Url.Content("~/Images/") + "#:data.Icon#' alt='#:data.Icon#' />")
+            .Width(56).HtmlAttributes(new { style = "vertical-align: middle; text-align: left; "});
+        columns.Bound(p => p.Id).Title("ID").Width(60);
+        columns.Bound(p => p.Title).Width(250);
+        columns.Bound(p => p.Status).Width(120);
+        columns.Bound(p => p.AssignedTo).Width(120);
+        columns.Bound(p => p.LastModified).Width(120).Format("{0:dd/MM/yyyy}");
+       
+    }) .DataSource(dataSource => dataSource.Ajax()
+                       .Model(model =>
+                           {
+                               model.Id(p => p.BaseId);
+                               model.Field(p => p.BaseId).Editable(false);
+                           })
+                       .ServerOperation(false) )
+   .Selectable(selectable => selectable.Mode(GridSelectionMode.Single))
+       .ClientDetailTemplateId("manualactivitydetail")
+   )
+  
+
+<script id="manualactivitydetail" type="text/kendo-tmpl">
+
+   @Html.Partial("_ManualActivityForm")</script>

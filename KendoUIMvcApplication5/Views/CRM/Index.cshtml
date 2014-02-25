@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "RelationshipDetailEdit";
+}
+
+
+@model IEnumerable<KendoUIMvcApplication5.Controllers.RelationshipDetailStag>
+
+<h2>Relationship Detail Edit</h2>
+
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.Rst_row_id).Hidden(true);
+        columns.Bound(o => o.Rdt_name).Title("Name");
+        columns.Bound(o => o.Rdt_notes).Title("Notes");
+        columns.Bound(o => o.Rdt_desc).Title("Description");
+        columns.Bound(o => o.Rst_record_st).Title("Status");
+    })
+    .Groupable()
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("RelationshipDetailEdit_Read", "CRM"))
+    )
+)

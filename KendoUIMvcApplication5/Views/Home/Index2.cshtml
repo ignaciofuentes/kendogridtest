@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    var thing = new { a = "hello world" };
+}
+@model IEnumerable<KendoUIMvcApplication5.Models.Arbitrator>
+
+@(Html.Kendo().Grid(Model)
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Name).Template(@<text>
+                                                                  @Html.ActionLink(@item.Name, "Arbitrator", "Detail", new { arbitratorId = @item.Id }, null)
+                                                             </text>);
+        columns.Bound(p => p.Company);
+        columns.Bound(p => p.Location).Filterable(f => f.Extra(false).Operators(o => o.ForString(s => s.Clear().Contains("Contain"))));
+        columns.Bound(p => p.MostRecentArbitration);
+        columns.Bound(p => p.AverageRating).Template(@<text>
+                                                                @item.AverageRating
+                                                               </text>);
+
+    }
+)
+    .Groupable()
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Filterable(f => f.Operators(o => o.ForString(s => s.Clear().StartsWith("Starts With").Contains("Contains"))))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(m => m.Url("/Home/GridData"))
+        .Model(model => model.Id(p => p.Id))
+    )
+))
+
+<script>
+    function myFunction() {
+        return { a: "hello world" };
+    }
+</script>
+
+
+
+
+
+

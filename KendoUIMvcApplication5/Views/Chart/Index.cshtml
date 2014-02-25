@@ -1,0 +1,20 @@
+﻿@model KendoUIMvcApplication5.Models.ChartModel
+
+<div class="chart-wrapper">
+@(Html.Kendo().Chart()
+    .Name("chart")
+    .Title("Issues Waterfall")
+    .DataSource(ds => ds
+        .ServerOperation(false)
+    )
+    .Series(series =>
+    {
+        series.Column(Model.BarElements);
+    })
+        .CategoryAxis(axis =>
+        {
+            axis.Categories(Model.Categories);
+        }
+    )
+)
+</div>
